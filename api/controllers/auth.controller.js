@@ -38,6 +38,7 @@ export const login = async (req, res) => {
       return res.status(401).json({ messageL: 'Invalid Credentials!' });
 
     //check if the password is correct
+    //to get the bcrypt(password and to db password{user.password})
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword)
@@ -45,11 +46,19 @@ export const login = async (req, res) => {
 
     //generate cookie token and send to the user
     // res.setHeader('Set-Cookie', 'test=' + 'myValue').json('success');
-
-    //one week expires login
+   //one week expires login
     const age = 1000 * 60 * 60 * 24 * 7;
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: age }
+    );
+    //one week expires login
     res
-      .cookie('test2', 'myValue2', {
+      .cookie('token', token, {
         httpOnly: true,
         // secure: true,
         maxAge: age,
@@ -62,6 +71,8 @@ export const login = async (req, res) => {
   }
 };
 
+//logout request
 export const logout = (req, res) => {
   //db operations
+  res.clearCookie('token').status(200).json({ message: 'Logout Success' });
 };
