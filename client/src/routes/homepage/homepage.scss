@@ -19,12 +19,20 @@
         padding: 0;
       }
 
+      @include sm {
+        justify-content: flex-start;
+      }
+
       .title {
         font-size: 64px;
       }
       .boxes {
         display: flex;
         justify-content: space-between;
+
+        @include sm {
+          display: none;
+        }
 
         h1 {
           font-size: 36px;

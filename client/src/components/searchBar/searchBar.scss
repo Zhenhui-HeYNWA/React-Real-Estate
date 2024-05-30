@@ -1,6 +1,10 @@
 @import '../../responsive.scss';
 .searchBar {
   .type {
+    @include sm {
+      //
+      border-radius: 5px;
+    }
     button {
       padding: 16px 36px;
       border: 1px solid #999;
@@ -35,6 +39,7 @@
 
     @include sm {
       flex-direction: column;
+      border: none;
     }
 
     input {
@@ -52,6 +57,26 @@
           width: 140px;
         }
       }
+      @include md {
+        width: 200px;
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: 200px;
+        }
+      }
+
+      @include sm {
+        padding: 20px;
+        border: 1px solid #999;
+        border-radius: 0 5px 5px 5px;
+        width: auto;
+
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: auto;
+          border-radius: 5px;
+        }
+      }
     }
 
     button {
@@ -59,8 +84,16 @@
       cursor: pointer;
       border-radius: 0 4px 4px 0;
       background-color: #fdce50;
-
       flex: 1;
+
+      @include md {
+        width: auto;
+      }
+
+      @include sm {
+        border-radius: 5px;
+        padding: 10px;
+      }
     }
     img {
       width: 24px;
