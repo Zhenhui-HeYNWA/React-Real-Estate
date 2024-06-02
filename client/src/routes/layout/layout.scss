@@ -14,11 +14,9 @@
     max-width: 1280px;
   }
   @include md {
-    background-color: palevioletred;
     max-width: 758px;
   }
   @include sm {
-    background-color: paleturquoise;
     max-width: 640px;
   }
 
