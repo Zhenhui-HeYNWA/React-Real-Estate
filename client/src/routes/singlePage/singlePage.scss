@@ -6,6 +6,7 @@
   @include md {
     flex-direction: column;
     overflow: scroll;
+    scrollbar-width: none;
   }
   .details {
     flex: 3;
@@ -70,7 +71,7 @@
             align-items: center;
             justify-content: center;
             gap: 20px;
-            padding: 0 6%;
+            padding: 0 6px;
             border-radius: 20px;
             background-color: rgb(253, 206, 80, 0.438);
             font-weight: 600;
@@ -92,10 +93,13 @@
     }
   }
   .features {
+    padding-top: 10px;
     flex: 2;
     background-color: #fcf5f3;
     height: 100%;
     overflow-y: scroll;
+    border-radius: 15px;
+    scrollbar-width: none;
 
     @include md {
       flex: none;
@@ -132,6 +136,7 @@
 
         img {
           background-color: rgba(254, 205, 81, 0.209);
+          border-radius: 5px;
         }
         .featureText {
           span {
