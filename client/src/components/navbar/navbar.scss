@@ -49,8 +49,6 @@ nav {
     align-items: center;
     justify-content: flex-end;
 
-    height: 100%;
-
     @include md {
       background-color: transparent;
     }

@@ -1,7 +1,27 @@
 import Chat from '../../components/chat/chat';
 import List from '../../components/list/list';
 import './profilePage.scss';
+import apiRequest from '../../lib/apiRequest';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+
 function ProfilePage() {
+  const { updateUser, currentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  //check if the currentUse is exist？ if no locate the user to login page
+
+  const handleLogout = async () => {
+    try {
+      await apiRequest.post('/auth/logout');
+      updateUser(null);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className='profilePage'>
       <div className='details'>
@@ -13,17 +33,16 @@ function ProfilePage() {
           <div className='info'>
             <span>
               Avatar:
-              <img
-                src='https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-                alt=''
-              />
+              <img src={currentUser.avatar || 'noavatar.jpg'} alt='' />
             </span>
             <span>
-              Username: <b>John Doe</b>
+              Username: <b>{currentUser.username}</b>
             </span>
             <span>
-              Email: <b>john@gamil.com</b>
+              Email: <b>{currentUser.email}</b>
             </span>
+
+            <button onClick={handleLogout}>Logout</button>
           </div>
           <div className='title'>
             <h1>My List</h1>
