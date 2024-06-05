@@ -2,7 +2,7 @@ import Chat from '../../components/chat/chat';
 import List from '../../components/list/list';
 import './profilePage.scss';
 import apiRequest from '../../lib/apiRequest';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -22,13 +22,16 @@ function ProfilePage() {
       console.log(error);
     }
   };
+
   return (
     <div className='profilePage'>
       <div className='details'>
         <div className='wrapper'>
           <div className='title'>
             <h1>User Information</h1>
-            <button>Update Profile</button>
+            <Link to='/profileUpdate'>
+              <button>Update Profile</button>
+            </Link>
           </div>
           <div className='info'>
             <span>

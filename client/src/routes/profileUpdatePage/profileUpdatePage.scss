@@ -13,6 +13,13 @@
       flex-direction: column;
       gap: 20px;
 
+      img {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
       .item {
         display: flex;
         flex-direction: column;
@@ -20,12 +27,14 @@
 
         label {
         }
+
         input {
           padding: 20px;
           border-radius: 5px;
           border: 1px solid gray;
         }
       }
+
       button {
         padding: 20px;
         border-radius: 5px;
@@ -47,7 +56,9 @@
     border-radius: 15px;
   }
   .avatar {
+    border-radius: 50%;
     width: 50%;
     object-fit: cover;
+    cursor: pointer;
   }
 }
