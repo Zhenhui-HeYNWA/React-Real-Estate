@@ -4,6 +4,7 @@ import postRouter from './routes/post.route.js';
 import authRouter from './routes/auth.route.js';
 import testRouter from './routes/test.route.js';
 import userRouter from './routes/user.route.js';
+
 import cookieParser from 'cookie-parser';
 const app = express();
 

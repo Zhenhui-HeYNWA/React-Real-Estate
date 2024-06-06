@@ -29,7 +29,7 @@ function ProfilePage() {
         <div className='wrapper'>
           <div className='title'>
             <h1>User Information</h1>
-            <Link to='/profileUpdate'>
+            <Link to='/profile/Update'>
               <button>Update Profile</button>
             </Link>
           </div>
@@ -49,7 +49,9 @@ function ProfilePage() {
           </div>
           <div className='title'>
             <h1>My List</h1>
-            <button>Create New Post</button>
+            <Link to='/add'>
+              <button>Create New Post</button>
+            </Link>
           </div>
           <List />
           <div className='title'>
