@@ -10,6 +10,8 @@ import ProfilePage from './routes/profilePage/profilePage';
 import ProfileUpdatePage from './routes/profileUpdatePage/profileUpdatePage';
 import Register from './routes/register/register';
 import NewPostPage from './routes/newPostPage/newPostPage';
+import AddPostPage from './routes/newPostPage/addPostPage';
+import PostPreview from './routes/newPostPage/postPreview';
 
 function App() {
   const router = createBrowserRouter([
@@ -55,6 +57,14 @@ function App() {
         {
           path: '/add',
           element: <NewPostPage />,
+        },
+        {
+          path: '/addpost',
+          element: <AddPostPage />,
+        },
+        {
+          path: '/previewPost',
+          element: <PostPreview />,
         },
       ],
     },
