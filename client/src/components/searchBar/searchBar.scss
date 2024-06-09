@@ -78,21 +78,27 @@
         }
       }
     }
-
-    button {
-      border: none;
-      cursor: pointer;
-      border-radius: 0 4px 4px 0;
-      background-color: #fdce50;
+    a {
       flex: 1;
+      background-color: #fdce50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      button {
+        border: none;
+        cursor: pointer;
+        border-radius: 0 4px 4px 0;
+        background-color: #fdce50;
+        flex: 1;
 
-      @include md {
-        width: auto;
-      }
+        @include md {
+          width: auto;
+        }
 
-      @include sm {
-        border-radius: 5px;
-        padding: 10px;
+        @include sm {
+          border-radius: 5px;
+          padding: 10px;
+        }
       }
     }
     img {

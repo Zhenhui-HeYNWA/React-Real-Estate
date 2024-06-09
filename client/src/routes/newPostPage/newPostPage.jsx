@@ -26,7 +26,7 @@ function NewPostPage() {
           title: inputs.title,
           price: parseInt(inputs.price),
           address: inputs.address,
-          city: inputs.city,
+          city: inputs.city.trim(),
           bedroom: parseInt(inputs.bedroom),
           bathroom: parseInt(inputs.bathroom),
           type: inputs.type,
