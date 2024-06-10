@@ -3,6 +3,8 @@
 .card {
   display: flex;
   gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #fdce50;
   .imageContainer {
     flex: 2;
     height: 200px;

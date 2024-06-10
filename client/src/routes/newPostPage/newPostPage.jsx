@@ -20,13 +20,20 @@ function NewPostPage() {
     const inputs = Object.fromEntries(formData);
     inputs.desc = value; // Include the value from ReactQuill
 
+    if (inputs.city) {
+      inputs.city =
+        inputs.city.charAt(0).toUpperCase() +
+        inputs.city.slice(1).toLocaleLowerCase();
+      inputs.city = inputs.city.trim();
+    }
+
     try {
       const res = await apiRequest.post('/posts', {
         postData: {
           title: inputs.title,
           price: parseInt(inputs.price),
           address: inputs.address,
-          city: inputs.city.trim(),
+          city: inputs.city,
           bedroom: parseInt(inputs.bedroom),
           bathroom: parseInt(inputs.bathroom),
           type: inputs.type,
@@ -100,7 +107,13 @@ function NewPostPage() {
               </div>
               <div className='item'>
                 <label htmlFor='city'>City</label>
-                <input id='city' name='city' type='text' required />
+                <input
+                  id='city'
+                  name='city'
+                  type='text'
+                  style={{ textTransform: 'capitalize' }}
+                  required
+                />
               </div>
 
               <div className='item'>

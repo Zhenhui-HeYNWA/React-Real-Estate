@@ -7,19 +7,29 @@ const types = ['buy', 'rent'];
 function SearchBar() {
   const [query, setQuery] = useState({
     type: 'buy',
-    location: '',
+    city: '',
     minPrice: 0,
-    maxPrice: 100000,
+    maxPrice: 0,
   });
   const switchType = (value) => {
     setQuery((prev) => ({ ...prev, type: value }));
   };
 
   const handleChange = (e) => {
-    setQuery((prev) => ({ ...prev, [e.target.name]: e.target.value.trim() }));
+    const { name, value } = e.target;
+    setQuery((prev) => ({
+      ...prev,
+
+      [name]:
+        name === 'city'
+          ? (
+              value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+            ).trim()
+          : '',
+    }));
   };
   const setLink = `/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`;
-
+  // TODO: Trans the first letter of the City name to Uppercase
   return (
     <div className='searchBar'>
       <div className='type'>
@@ -38,6 +48,7 @@ function SearchBar() {
           name='city'
           placeholder='City '
           onChange={handleChange}
+          defaultValue={undefined}
         />
         <input
           type='number'

@@ -193,6 +193,7 @@
         justify-content: space-between;
 
         button {
+          width: 170px;
           padding: 20px;
           display: flex;
           align-items: center;
@@ -201,6 +202,16 @@
           border: 1px solid #fece51;
           border-radius: 5px;
           cursor: pointer;
+          text-align: center;
+          justify-content: center;
+
+          &.saved {
+            background-color: #fece51;
+          }
+          img {
+            width: 16px;
+            height: 16px;
+          }
         }
       }
     }
