@@ -9,6 +9,7 @@ import { AuthContext } from '../../context/AuthContext';
 function ProfilePage() {
   const data = useLoaderData();
   const { updateUser, currentUser } = useContext(AuthContext);
+  console.log(data.postResponse);
 
   const navigate = useNavigate();
 

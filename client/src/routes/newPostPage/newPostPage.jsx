@@ -13,12 +13,15 @@ function NewPostPage() {
 
   const navigate = useNavigate();
 
+  const handleDelete = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
-    inputs.desc = value; // Include the value from ReactQuill
 
     if (inputs.city) {
       inputs.city =
@@ -71,27 +74,36 @@ function NewPostPage() {
   return (
     <div className='newPostPage'>
       <div className='formContainer'>
-        <h1>Add New Post</h1>
+        <div className='left'>
+          <h1>Add New Post</h1>
+        </div>
 
         <div className='group images'>
-          <h2>Property Images</h2>
+          <div className='left'>
+            <h2>Property Images</h2>
+          </div>
 
-          <div className='item'>
-            {images.map((image, index) => (
-              <img src={image} alt='' key={index} />
-            ))}
-            <div className='widget'>
-              <UploadWidget
-                uwConfig={{
-                  multiple: true,
-                  cloudName: 'dae2mlnyo',
-                  uploadPreset: 'estate',
-                  maxImageFileSize: 2000000,
-                  folder: 'posts',
-                }}
-                setState={setImages}
-              />
+          <div className='right'>
+            <div className='wrapper'>
+              {images.map((image, index) => (
+                <span key={index} className='imgBox'>
+                  <img src={image} alt='' key={index} />
+                  <span onClick={() => handleDelete(index)}>X</span>
+                </span>
+              ))}
             </div>
+          </div>
+          <div className='widget'>
+            <UploadWidget
+              uwConfig={{
+                multiple: true,
+                cloudName: 'dae2mlnyo',
+                uploadPreset: 'estate',
+                maxImageFileSize: 2000000,
+                folder: 'posts',
+              }}
+              setState={setImages}
+            />
           </div>
         </div>
 

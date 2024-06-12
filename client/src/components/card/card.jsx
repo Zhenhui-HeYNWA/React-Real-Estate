@@ -1,7 +1,13 @@
+import { useContext } from 'react';
 import './card.scss';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 function Card({ item }) {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
+  console.log(item.userId);
+
   return (
     <div className='card'>
       <Link to={`/${item.id}`} className='imageContainer'>
@@ -33,9 +39,16 @@ function Card({ item }) {
             <div className='icon'>
               <img src='/save.png' alt='' />
             </div>
-            <div className='icon'>
-              <img src='/chat.png' alt='' />
-            </div>
+
+            {item.userId === currentUser.id ? (
+              <div className='icon'>
+                <p>Edit</p>
+              </div>
+            ) : (
+              <div className='icon'>
+                <img src='/chat.png' alt='' />
+              </div>
+            )}
           </div>
         </div>
       </div>

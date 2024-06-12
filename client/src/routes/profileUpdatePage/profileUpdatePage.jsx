@@ -11,25 +11,31 @@ function ProfileUpdatePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
   const [avatar, setAvatar] = useState([]);
   const navigate = useNavigate();
+  console.log(error);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    const { username, email, password } = Object.fromEntries(formData);
-
-    try {
-      const res = await apiRequest.put(`/users/${currentUser.id}`, {
-        username,
-        email,
-        password,
-        avatar: avatar[0],
-      });
-      updateUser(res.data);
-      navigate('/profile');
-    } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
+    const { username, email, password, conpassword } =
+      Object.fromEntries(formData);
+    if (password !== conpassword) {
+      setError('Password not match!');
+      return;
+    } else {
+      try {
+        const res = await apiRequest.put(`/users/${currentUser.id}`, {
+          username,
+          email,
+          password,
+          avatar: avatar[0],
+        });
+        updateUser(res.data);
+        navigate('/profile');
+      } catch (error) {
+        console.log(error);
+        setError(error.response.data.message);
+      }
     }
   };
   return (
@@ -59,10 +65,14 @@ function ProfileUpdatePage() {
           </div>
           <div className='item'>
             <label htmlFor='password'>Password</label>
-            <input id='password' name='password' type='text' />
+            <input id='password' name='password' type='password' />
           </div>
+          <div className='item'>
+            <label htmlFor='conpassword'>Confirm Password</label>
+            <input id='conpassword' name='conpassword' type='password' />
+          </div>
+          <span>{error}</span>
           <button>Update</button>
-          <span>{error && <span>error</span>}</span>
         </form>
       </div>
       <div className='sideContainer'>

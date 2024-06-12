@@ -2,7 +2,7 @@ import Slider from '../../components/slider/slider';
 
 import './singlePage.scss';
 import Map from '../../components/map/map';
-import { redirect, useLoaderData } from 'react-router-dom';
+import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
@@ -10,18 +10,19 @@ import apiRequest from '../../lib/apiRequest.js';
 function SinglePage() {
   const post = useLoaderData();
   const [saved, setSaved] = useState(post.isSaved);
-
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSave = async () => {
-    setSaved((prev) => !prev);
     if (!currentUser) {
-      redirect('/login');
+      navigate('/login');
     }
+    // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
+    setSaved((prev) => !prev);
     try {
       await apiRequest.post('/users/save', { postId: post.id });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       setSaved((prev) => !prev);
     }
   };
@@ -169,7 +170,7 @@ function SinglePage() {
               />
               Send a Message
             </button>
-            <button className={saved ? 'saved' : ''} onClick={handleSave}>
+            <button onClick={handleSave} className={saved ? 'saved' : ''}>
               <img src='/save.png' alt='' />
               {saved ? 'Post is saved' : 'Save the place'}
             </button>
