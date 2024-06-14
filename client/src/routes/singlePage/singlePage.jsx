@@ -9,10 +9,11 @@ import { AuthContext } from '../../context/AuthContext';
 import apiRequest from '../../lib/apiRequest.js';
 function SinglePage() {
   const post = useLoaderData();
+
   console.log(post);
 
   const [saved, setSaved] = useState(post.isSaved);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSave = async () => {
@@ -23,6 +24,9 @@ function SinglePage() {
     setSaved((prev) => !prev);
     try {
       await apiRequest.post('/users/save', { postId: post.id });
+      const updatedUserRes = await apiRequest.get('/users/' + currentUser.id);
+      const updatedUser = updatedUserRes.data;
+      updateUser(updatedUser);
     } catch (err) {
       console.log(err);
       setSaved((prev) => !prev);
