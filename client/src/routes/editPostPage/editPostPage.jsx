@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import UploadWidget from '../../components/uploadWidget/uploadWidget';
-import './newPostPage.scss';
+import './editPostPage.scss';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import apiRequest from '../../lib/apiRequest';
-import { useNavigate } from 'react-router-dom';
-import { MapPin } from 'lucide-react';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
-function NewPostPage() {
+function EditPostPage() {
+  const post = useLoaderData();
+  const postDetail = post.postDetail;
+  console.log(postDetail);
+  console.log(post.property);
+  console.log(postDetail.pet);
+  console.log(post.type === 'buy');
+
   const [value, setValue] = useState('');
   const [images, setImages] = useState([]);
   const [error, setError] = useState('');
-  const [position, setPosition] = useState({ latitude: null, longitude: null });
 
   const navigate = useNavigate();
 
@@ -65,16 +70,6 @@ function NewPostPage() {
     }
   };
 
-  const handleLocation = () => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setPosition({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
-    });
-  };
-  console.log(position);
-
   const handleCancel = () => {
     const form = document.getElementById('postForm');
     form.reset();
@@ -97,7 +92,7 @@ function NewPostPage() {
 
           <div className='right'>
             <div className='wrapper'>
-              {images.map((image, index) => (
+              {post.images.map((image, index) => (
                 <span key={index} className='imgBox'>
                   <img src={image} alt='' key={index} />
                   <span onClick={() => handleDelete(index)}>X</span>
@@ -127,7 +122,13 @@ function NewPostPage() {
             <div className='right'>
               <div className='item'>
                 <label htmlFor='title'>Title</label>
-                <input id='title' name='title' type='text' required />
+                <input
+                  id='title'
+                  name='title'
+                  type='text'
+                  defaultValue={post.title}
+                  required
+                />
               </div>
               <div className='item'>
                 <label htmlFor='city'>City</label>
@@ -136,18 +137,31 @@ function NewPostPage() {
                   name='city'
                   type='text'
                   style={{ textTransform: 'capitalize' }}
+                  defaultValue={post.city}
                   required
                 />
               </div>
 
               <div className='item'>
                 <label htmlFor='price'>Price</label>
-                <input id='price' name='price' type='number' required />
+                <input
+                  id='price'
+                  name='price'
+                  type='number'
+                  defaultValue={post.price}
+                  required
+                />
               </div>
 
               <div className='item'>
                 <label htmlFor='address'>Address</label>
-                <input id='address' name='address' type='text' required />
+                <input
+                  id='address'
+                  name='address'
+                  type='text'
+                  defaultValue={post.address}
+                  required
+                />
               </div>
             </div>
           </div>
@@ -164,6 +178,7 @@ function NewPostPage() {
                   id='bedroom'
                   name='bedroom'
                   type='number'
+                  defaultValue={post.bedroom}
                   required
                 />
               </div>
@@ -174,6 +189,7 @@ function NewPostPage() {
                   id='bathroom'
                   name='bathroom'
                   type='number'
+                  defaultValue={post.bathroom}
                   required
                 />
               </div>
@@ -181,7 +197,14 @@ function NewPostPage() {
                 <label htmlFor='size'>
                   Total Size <span>(sqft)</span>
                 </label>
-                <input min={0} id='size' name='size' type='number' required />
+                <input
+                  min={0}
+                  id='size'
+                  name='size'
+                  type='number'
+                  defaultValue={postDetail.size}
+                  required
+                />
               </div>
               <div className='item'>
                 <label htmlFor='latitude'>Latitude</label>
@@ -189,10 +212,7 @@ function NewPostPage() {
                   id='latitude'
                   name='latitude'
                   type='text'
-                  value={position.latitude || ''}
-                  onChange={(e) =>
-                    setPosition({ ...position, latitude: e.target.value })
-                  }
+                  defaultValue={postDetail.latitude}
                   required
                 />
               </div>
@@ -202,15 +222,9 @@ function NewPostPage() {
                   id='longitude'
                   name='longitude'
                   type='text'
-                  value={position.longitude || ''}
-                  onChange={(e) =>
-                    setPosition({ ...position, longitude: e.target.value })
-                  }
+                  defaultValue={postDetail.longitude}
                   required
                 />
-              </div>
-              <div className='location'>
-                <MapPin size={20} onClick={handleLocation} />
               </div>
             </div>
           </div>
@@ -222,20 +236,16 @@ function NewPostPage() {
             <div className='right'>
               <div className='item'>
                 <label htmlFor='type'>Type</label>
-                <select name='type'>
-                  <option value='rent' defaultChecked>
-                    Rent
-                  </option>
+                <select name='type' defaultValue={post.type}>
+                  <option value='rent'>Rent</option>
                   <option value='buy'>Buy</option>
                 </select>
               </div>
 
               <div className='item'>
                 <label htmlFor='property'>Property</label>
-                <select name='property'>
-                  <option value='apartment' defaultChecked>
-                    Apartment
-                  </option>
+                <select name='property' defaultValue={post.property}>
+                  <option value='apartment'>Apartment</option>
                   <option value='house'>House</option>
                   <option value='condo'>Condo</option>
                   <option value='land'>Land</option>
@@ -250,20 +260,16 @@ function NewPostPage() {
             <div className='right'>
               <div className='item'>
                 <label htmlFor='utilities'>Utilities Policy</label>
-                <select name='utilities'>
-                  <option value='owner' defaultChecked>
-                    Owner is responsible
-                  </option>
+                <select name='utilities' defaultValue={post.utilities}>
+                  <option value='owner'>Owner is responsible</option>
                   <option value='tenant'>Tenant is responsible</option>
                   <option value='shared'>Shared</option>
                 </select>
               </div>
               <div className='item'>
                 <label htmlFor='pet'>Pet Policy</label>
-                <select name='pet'>
-                  <option value='not-allowed' defaultChecked>
-                    Not Allowed
-                  </option>
+                <select name='pet' defaultValue={post.pet}>
+                  <option value='not-allowed'>Not Allowed</option>
                   <option value='allowed'>Allowed</option>
                 </select>
               </div>
@@ -274,6 +280,7 @@ function NewPostPage() {
                   name='income'
                   type='text'
                   placeholder='Income Policy'
+                  defaultValue={postDetail.income}
                   required
                 />
               </div>
@@ -292,12 +299,20 @@ function NewPostPage() {
                   id='school'
                   name='school'
                   type='number'
+                  defaultValue={postDetail.school}
                   required
                 />
               </div>
               <div className='item'>
                 <label htmlFor='bus'>Bus</label>
-                <input min={0} id='bus' name='bus' type='number' required />
+                <input
+                  min={0}
+                  id='bus'
+                  name='bus'
+                  type='number'
+                  defaultValue={postDetail.bus}
+                  required
+                />
               </div>
               <div className='item'>
                 <label htmlFor='restaurant'>Restaurant</label>
@@ -306,6 +321,7 @@ function NewPostPage() {
                   id='restaurant'
                   name='restaurant'
                   type='number'
+                  defaultValue={postDetail.restaurant}
                   required
                 />
               </div>
@@ -321,7 +337,8 @@ function NewPostPage() {
                   theme='snow'
                   className='quillInput'
                   onChange={setValue}
-                  value={value}
+                  defaultValue={post.desc}
+                  value={post.desc}
                 />
               </div>
             </div>
@@ -346,4 +363,4 @@ function NewPostPage() {
   );
 }
 
-export default NewPostPage;
+export default EditPostPage;

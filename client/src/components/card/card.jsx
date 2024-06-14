@@ -1,12 +1,37 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './card.scss';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import apiRequest from '../../lib/apiRequest';
 
 function Card({ item }) {
   const { currentUser } = useContext(AuthContext);
   console.log(currentUser);
-  console.log(item.userId);
+
+  const [saved, setSaved] = useState();
+
+  // useEffect(()=>{
+  //   const fetchSavedPosts =async()=>{
+  //     if(currentUser){
+  //       try{
+  //         const res = await apiRequest.get()
+  //       }
+  //     }
+  //   }
+  // })
+
+  const handleSave = async () => {
+    if (!currentUser) {
+      navigator('/login');
+    }
+    setSaved((prev) => !prev);
+    try {
+      const res = await apiRequest.post('/users/save', { postId: item.id });
+    } catch (err) {
+      console.log(err);
+      setSaved((prev) => !prev);
+    }
+  };
 
   return (
     <div className='card'>
@@ -36,14 +61,18 @@ function Card({ item }) {
             </div>
           </div>
           <div className='icons'>
-            <div className='icon'>
+            <div
+              className={saved ? ' icon saved' : 'icon'}
+              onClick={handleSave}>
               <img src='/save.png' alt='' />
             </div>
 
             {item.userId === currentUser.id ? (
-              <div className='icon'>
-                <p>Edit</p>
-              </div>
+              <Link to={`/${item.id}/edit`} item={item}>
+                <div className='icon'>
+                  <p>Edit</p>
+                </div>
+              </Link>
             ) : (
               <div className='icon'>
                 <img src='/chat.png' alt='' />

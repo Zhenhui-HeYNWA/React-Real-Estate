@@ -80,6 +80,7 @@
     flex: 2;
     background-color: #fcf5f3;
     height: 100%;
+    border-radius: 15px;
 
     @include md {
       flex: none;

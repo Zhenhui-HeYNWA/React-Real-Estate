@@ -13,9 +13,17 @@ export const getUsers = async (req, res) => {
 
 export const getUser = async (req, res) => {
   const id = req.params.id;
+
   try {
     const user = await prisma.user.findUnique({
       where: { id },
+      include: {
+        savedPosts: {
+          include: {
+            post: true, // Include the post details if needed
+          },
+        },
+      },
     });
     res.status(200).json(user);
   } catch (err) {
@@ -81,7 +89,6 @@ export const savePost = async (req, res) => {
   const tokenUserId = req.userId;
 
   try {
-    // 检查帖子是否已被保存
     const savedPost = await prisma.savedPost.findUnique({
       where: {
         userId_postId: {
@@ -92,38 +99,30 @@ export const savePost = async (req, res) => {
     });
 
     if (savedPost) {
-      // 如果帖子已被保存，则删除它
       await prisma.savedPost.delete({
         where: {
-          userId_postId: {
-            userId: tokenUserId,
-            postId,
-          },
+          id: savedPost.id,
         },
       });
-      return res.status(200).json({ message: 'Post removed from saved list' });
+      res.status(200).json({ message: 'Post removed from saved list' });
     } else {
-      // 如果帖子尚未保存，则保存它
       await prisma.savedPost.create({
         data: {
           userId: tokenUserId,
           postId,
         },
       });
-      return res.status(200).json({ message: 'Post saved' });
+      res.status(200).json({ message: 'Post saved' });
     }
   } catch (err) {
-    if (err.code === 'P2002') {
-      // 如果发生唯一约束错误
-      return res.status(400).json({ message: 'Post already saved!' });
-    }
-    console.error('Error saving post:', err);
-    return res.status(500).json({ message: 'Failed to save post!' });
+    console.log(err);
+    res.status(500).json({ message: 'Failed to delete users!' });
   }
 };
 
 export const profilePosts = async (req, res) => {
   const tokenUserId = req.userId;
+
   try {
     const userPosts = await prisma.post.findMany({
       where: { userId: tokenUserId },
@@ -145,6 +144,7 @@ export const profilePosts = async (req, res) => {
 
 export const getNotificationNumber = async (req, res) => {
   const tokenUserId = req.userId;
+
   try {
     const number = await prisma.chat.count({
       where: {
@@ -158,6 +158,7 @@ export const getNotificationNumber = async (req, res) => {
         },
       },
     });
+
     res.status(200).json(number);
   } catch (err) {
     console.log(err);

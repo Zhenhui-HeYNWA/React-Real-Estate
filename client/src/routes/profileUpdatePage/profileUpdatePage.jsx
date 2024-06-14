@@ -11,7 +11,6 @@ function ProfileUpdatePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
   const [avatar, setAvatar] = useState([]);
   const navigate = useNavigate();
-  console.log(error);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

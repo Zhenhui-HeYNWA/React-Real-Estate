@@ -9,6 +9,8 @@ import { AuthContext } from '../../context/AuthContext';
 import apiRequest from '../../lib/apiRequest.js';
 function SinglePage() {
   const post = useLoaderData();
+  console.log(post);
+
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -125,7 +127,7 @@ function SinglePage() {
                 <span>School</span>
                 <p>
                   {post.postDetail.school > 999
-                    ? post.postDetail.school / 1000 + 'km '
+                    ? (post.postDetail.school / 1000).toFixed(2) + 'km '
                     : post.postDetail.school + 'm '}
                   away
                 </p>
@@ -137,7 +139,7 @@ function SinglePage() {
                 <span>Bus Stop</span>
                 <p>
                   {post.postDetail.bus > 999
-                    ? post.postDetail.bus / 1000 + 'km '
+                    ? (post.postDetail.bus / 1000).toFixed(2) + 'km '
                     : post.postDetail.bus + 'm '}
                   away
                 </p>
@@ -149,7 +151,7 @@ function SinglePage() {
                 <span>Restaurant</span>
                 <p>
                   {post.postDetail.restaurant > 999
-                    ? post.postDetail.restaurant / 1000 + 'km '
+                    ? (post.postDetail.restaurant / 1000).toFixed(2) + 'km '
                     : post.postDetail.restaurant + 'm '}
                   away
                 </p>

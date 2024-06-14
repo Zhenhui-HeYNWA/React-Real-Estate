@@ -4,11 +4,14 @@ import './listPage.scss';
 import Card from '../../components/card/card';
 import Map from '../../components/map/map';
 import { Await, useLoaderData } from 'react-router-dom';
-import { Suspense } from 'react';
+import { Suspense, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 function ListPage() {
   const data = useLoaderData();
 
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   return (
     <div className='listPage'>
       <div className='listContainer'>

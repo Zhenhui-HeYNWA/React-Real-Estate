@@ -61,7 +61,7 @@ model SavedPost {
   postId    String   @db.ObjectId
   createdAt DateTime @default(now())
 
-  @@unique([userId, postId])
+  @@unique([userId, postId]) // Compound unique constraint to ensure a user can only save a post once
 }
 
 model User {
