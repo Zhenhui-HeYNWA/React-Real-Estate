@@ -22,13 +22,12 @@ function Navbar() {
         <a href='/'>Home</a>
         <a href='/'>About</a>
         <a href='/list'>List</a>
-        <a href='/'>Contact</a>
         <a href='/'>Agents</a>
       </div>
       <div className='right'>
         {currentUser ? (
           <div className='user'>
-            <img src={currentUser.avatar || '/noavatar.jpg'} alt='' />
+            <img src={currentUser.avatar} alt='' />
             <span>{currentUser.username}</span>
             <Link to='/profile' className='profile'>
               {number === 0 ? '' : <div className='notification'>{number}</div>}
@@ -55,7 +54,7 @@ function Navbar() {
         <div className={open ? 'menu active' : 'menu'}>
           <a href='/'>Home</a>
           <a href='/'>About</a>
-          <a href='/'>Contact</a>
+          <a href='/list'>List</a>
           <a href='/'>Agents</a>
           <a href='/'>Sign in</a>
           <a href='/'>Sign up</a>

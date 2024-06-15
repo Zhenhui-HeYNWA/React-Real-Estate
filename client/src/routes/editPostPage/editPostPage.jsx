@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UploadWidget from '../../components/uploadWidget/uploadWidget';
 import './editPostPage.scss';
 import ReactQuill from 'react-quill';
@@ -9,16 +9,20 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 function EditPostPage() {
   const post = useLoaderData();
   const postDetail = post.postDetail;
-  console.log(postDetail);
-  console.log(post.property);
-  console.log(postDetail.pet);
-  console.log(post.type === 'buy');
-
   const [value, setValue] = useState('');
   const [images, setImages] = useState([]);
   const [error, setError] = useState('');
+  console.log(postDetail.desc);
 
   const navigate = useNavigate();
+
+  // 使用 useEffect 在组件加载时设置默认值
+  useEffect(() => {
+    if (post && postDetail.desc) {
+      setValue(postDetail.desc);
+    }
+    console.log(value);
+  }, [post]);
 
   const handleDelete = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -336,9 +340,8 @@ function EditPostPage() {
                 <ReactQuill
                   theme='snow'
                   className='quillInput'
+                  value={value}
                   onChange={setValue}
-                  defaultValue={post.desc}
-                  value={post.desc}
                 />
               </div>
             </div>

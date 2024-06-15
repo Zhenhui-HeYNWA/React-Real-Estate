@@ -3,11 +3,20 @@ import './card.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import apiRequest from '../../lib/apiRequest';
+import {
+  MessageSquareText,
+  Bookmark,
+  Bolt,
+  BedDouble,
+  Bath,
+  MapPin,
+} from 'lucide-react';
 
 function Card({ item }) {
   const { currentUser, updateUser } = useContext(AuthContext);
   console.log(currentUser);
   const navigate = useNavigate();
+  console.log(item.userId);
 
   const [saved, setSaved] = useState(
     currentUser?.savedPosts?.some((post) => post.postId === item.id) || false
@@ -51,6 +60,22 @@ function Card({ item }) {
     }
   };
 
+  const handleChat = async () => {
+    if (!currentUser) {
+      navigate('/login');
+    }
+
+    try {
+      await apiRequest.post('/chats', {
+        receiverId: item.userId,
+        postId: item.id,
+      });
+      navigate('/profile');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className='card'>
       <Link to={`/${item.id}`} className='imageContainer'>
@@ -61,7 +86,7 @@ function Card({ item }) {
           <Link to={`/${item.id}`}>{item.title}</Link>
         </h2>
         <p className='address'>
-          <img src='/pin.png' alt='' />
+          <MapPin size={20} />
           <span>{item.address}</span>
         </p>
         <p className='price'>${item.price}</p>
@@ -69,34 +94,34 @@ function Card({ item }) {
         <div className='bottom'>
           <div className='features'>
             <div className='feature'>
-              <img src='/bed.png' alt='' />
+              <BedDouble size={18} strokeWidth={1} />
               <span>{item.bedroom} bedroom</span>
             </div>
 
             <div className='feature'>
-              <img src='/bath.png' alt='' />
+              <Bath size={18} strokeWidth={1} />
               <span>{item.bathroom} bathroom</span>
             </div>
           </div>
           <div className='icons'>
             <div className={saved ? 'icon saved' : 'icon'} onClick={handleSave}>
-              <img src='/save.png' alt='' />
+              <Bookmark strokeWidth={1} />
             </div>
             {currentUser ? (
               item.userId === currentUser.id ? (
                 <Link to={`/${item.id}/edit`} item={item}>
                   <div className='icon'>
-                    <p>Edit</p>
+                    <Bolt strokeWidth={1} />
                   </div>
                 </Link>
               ) : (
-                <div className='icon'>
-                  <img src='/chat.png' alt='' />
+                <div className='icon' onClick={handleChat}>
+                  <MessageSquareText strokeWidth={1} />
                 </div>
               )
             ) : (
-              <div className='icon'>
-                <img src='/chat.png' alt='' />
+              <div className='icon' onClick={handleChat}>
+                <MessageSquareText strokeWidth={1} />
               </div>
             )}
           </div>

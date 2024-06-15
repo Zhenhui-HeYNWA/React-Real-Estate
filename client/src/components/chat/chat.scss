@@ -34,6 +34,14 @@
       span {
         font-weight: bold;
       }
+      p {
+        display: flex;
+        width: 300px;
+        overflow: hidden; /* 隐藏溢出内容 */
+        text-overflow: ellipsis;
+        word-wrap: break-all;
+        white-space: nowrap;
+      }
     }
   }
 
@@ -81,21 +89,35 @@
       gap: 20px;
 
       .chatMessage {
-        width: max-content;
+        width: 100%;
 
         &.own {
           align-self: flex-end;
           text-align: right;
         }
         p {
+          display: inline-block; /* 使背景色随内容变化 */
           padding: 10px;
-          width: max-content;
           border-radius: 15px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: pre-wrap; /* 保留空格并允许换行 */
+          word-wrap: break-word; /* 支持单词换行 */
+          overflow-wrap: break-word; /* 兼容性处理 */
+          background-color: #e5e5ea;
+          max-width: 100%;
+          a {
+            color: blue;
+            text-decoration: underline;
+            &:hover {
+              text-decoration: none;
+            }
+          }
         }
 
         span {
           font-size: 12px;
-
+          display: block;
           padding: 2px;
         }
       }

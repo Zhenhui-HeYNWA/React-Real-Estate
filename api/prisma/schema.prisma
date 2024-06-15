@@ -84,6 +84,7 @@ model Chat {
   createdAt   DateTime  @default(now())
   seenBy      String[]  @db.ObjectId
   messages    Message[]
+  postId      String    @db.ObjectId
   lastMessage String?
 }
 

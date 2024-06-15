@@ -1,14 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './register.scss';
-import axios from 'axios';
 import { useState } from 'react';
 import apiRequest from '../../lib/apiRequest';
+import UploadWidget from '../../components/uploadWidget/uploadWidget';
 
 function Register() {
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  //After Create a new user, navigate to login in page;
+  const [avatar, setAvatar] = useState([]); // 初始状态为空字符串
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,32 +20,42 @@ function Register() {
     const conPassword = formData.get('ConPassword');
 
     const EqualPassword = password === conPassword;
-    console.log(EqualPassword);
+    console.log(avatar[0]);
 
     if (EqualPassword) {
       try {
-        const res = await apiRequest.post('/auth/register', {
+        await apiRequest.post('/auth/register', {
           username,
           email,
           password,
+          avatar: avatar[0], // 使用更新后的头像 URL
         });
         navigate('/login');
       } catch (error) {
         console.log(error);
-        setError(error.response.data.message);
-      } finally {
-        setIsLoading(false);
+        setError(error.response?.data?.message || 'Registration failed');
       }
-    } else {
-      alert('password not match');
     }
   };
 
   return (
     <div className='register'>
       <div className='formContainer'>
+        <h1>Create an Account</h1>
+        <div className='item avatar'>
+          <img src={avatar[0] || '/noavatar.jpg'} alt='' className='avatar' />
+          <UploadWidget
+            uwConfig={{
+              cloudName: 'dae2mlnyo',
+              uploadPreset: 'estate',
+              multiple: false,
+              maxImageFileSize: 2000000,
+              folder: 'avatars',
+            }}
+            setState={setAvatar} // 上传成功后更新头像 URL
+          />
+        </div>
         <form onSubmit={handleSubmit}>
-          <h1>Create an Account</h1>
           <div className='item'>
             <label htmlFor='username'>Username</label>
             <input
@@ -58,14 +66,14 @@ function Register() {
             />
           </div>
           <div className='item'>
-            <label htmlFor='email'>Email</label>{' '}
+            <label htmlFor='email'>Email</label>
             <input name='email' type='text' placeholder='Email' required />
           </div>
           <div className='item'>
             <label htmlFor='password'>Password</label>
             <input
               name='password'
-              type='text'
+              type='password'
               placeholder='Password'
               required
             />
@@ -74,13 +82,13 @@ function Register() {
             <label htmlFor='ConPassword'>Confirm Password</label>
             <input
               name='ConPassword'
-              type='text'
+              type='password'
               placeholder='Confirm Password'
               required
             />
           </div>
 
-          <button disabled={isLoading}>Register</button>
+          <button>Register</button>
           <span>{error}</span>
           <Link to='/login'>
             Already have an account? <span>Login</span>
@@ -88,11 +96,7 @@ function Register() {
         </form>
       </div>
       <div className='imgContainer'>
-        <img
-          src='/bg.png
-        '
-          alt=''
-        />
+        <img src='/bg.png' alt='' />
       </div>
     </div>
   );
