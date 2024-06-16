@@ -5,14 +5,19 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import apiRequest from '../../lib/apiRequest';
 import { useLoaderData, useNavigate } from 'react-router-dom';
+import { MapPin } from 'lucide-react';
 
 function EditPostPage() {
   const post = useLoaderData();
   const postDetail = post.postDetail;
   const [value, setValue] = useState('');
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(post.images);
   const [error, setError] = useState('');
-  console.log(postDetail.desc);
+  console.log(images);
+  const [position, setPosition] = useState({
+    latitude: post.latitude || null,
+    longitude: post.longitude || null,
+  });
 
   const navigate = useNavigate();
 
@@ -42,7 +47,7 @@ function EditPostPage() {
     }
 
     try {
-      const res = await apiRequest.post('/posts', {
+      const res = await apiRequest.put(`/posts/${post.id}`, {
         postData: {
           title: inputs.title,
           price: parseInt(inputs.price),
@@ -72,6 +77,14 @@ function EditPostPage() {
       console.log(error);
       setError(error.message);
     }
+  };
+  const handleLocation = () => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setPosition({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
   };
 
   const handleCancel = () => {
@@ -216,7 +229,10 @@ function EditPostPage() {
                   id='latitude'
                   name='latitude'
                   type='text'
-                  defaultValue={postDetail.latitude}
+                  value={position.latitude || ''}
+                  onChange={(e) =>
+                    setPosition({ ...position, latitude: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -226,9 +242,15 @@ function EditPostPage() {
                   id='longitude'
                   name='longitude'
                   type='text'
-                  defaultValue={postDetail.longitude}
+                  value={position.longitude || ''}
+                  onChange={(e) =>
+                    setPosition({ ...position, longitude: e.target.value })
+                  }
                   required
                 />
+              </div>
+              <div className='location'>
+                <MapPin size={20} onClick={handleLocation} />
               </div>
             </div>
           </div>

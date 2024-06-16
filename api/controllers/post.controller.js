@@ -96,8 +96,22 @@ export const addPost = async (req, res) => {
 };
 
 export const updatePost = async (req, res) => {
+  const id = req.params.id;
+  const { postData, postDetail } = req.body;
   try {
-    res.status(200).json();
+    const updatedPost = await prisma.post.update({
+      where: { id },
+      data: {
+        ...postData,
+        postDetail: {
+          update: postDetail,
+        },
+      },
+      include: {
+        postDetail: true,
+      },
+    });
+    res.status(200).json(updatedPost);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Failed to update posts' });
