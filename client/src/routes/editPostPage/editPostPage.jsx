@@ -11,9 +11,8 @@ function EditPostPage() {
   const post = useLoaderData();
   const postDetail = post.postDetail;
   const [value, setValue] = useState('');
-  const [images, setImages] = useState(post.images);
+  const [images, setImages] = useState(post.images || []);
   const [error, setError] = useState('');
-  console.log(images);
   const [position, setPosition] = useState({
     latitude: post.latitude || null,
     longitude: post.longitude || null,
@@ -30,6 +29,7 @@ function EditPostPage() {
   }, [post]);
 
   const handleDelete = (index) => {
+    console.log(index);
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
@@ -109,10 +109,10 @@ function EditPostPage() {
 
           <div className='right'>
             <div className='wrapper'>
-              {post.images.map((image, index) => (
+              {images.map((image, index) => (
                 <span key={index} className='imgBox'>
                   <img src={image} alt='' key={index} />
-                  <span onClick={() => handleDelete(index)}>X</span>
+                  <span onClick={() => handleDelete(index)}>{index}X</span>
                 </span>
               ))}
             </div>

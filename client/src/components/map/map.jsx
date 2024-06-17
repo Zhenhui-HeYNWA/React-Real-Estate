@@ -1,4 +1,8 @@
-import { MapContainer, TileLayer } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  useMap as useLeafletMap,
+} from 'react-leaflet';
 import './map.scss';
 import 'leaflet/dist/leaflet.css';
 import Markers from '../markers/markers';

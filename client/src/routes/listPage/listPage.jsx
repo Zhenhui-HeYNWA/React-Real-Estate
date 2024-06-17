@@ -4,12 +4,26 @@ import './listPage.scss';
 import Card from '../../components/card/card';
 import Map from '../../components/map/map';
 import { Await, useLoaderData } from 'react-router-dom';
-import { Suspense, useContext, useEffect } from 'react';
+import { Suspense, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import apiRequest from '../../lib/apiRequest';
 
 function ListPage() {
   const data = useLoaderData();
+  const [posts, setPosts] = useState(data.postResponse.data);
+
+  const fetchPosts = async () => {
+    try {
+      const res = await apiRequest.get('/posts');
+      setPosts(res.data);
+    } catch (error) {
+      console.log('Failed to fetch posts:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
     <div className='listPage'>
@@ -22,7 +36,7 @@ function ListPage() {
               errorElement={<p>Error loading posts!</p>}>
               {(postResponse) =>
                 postResponse.data.map((post) => (
-                  <Card key={post.id} item={post} />
+                  <Card key={post.id} item={post} onDelete={fetchPosts} />
                 ))
               }
             </Await>

@@ -82,7 +82,55 @@
       .icons {
         display: flex;
         gap: 20px;
+        .icon.dropdown {
+          position: relative;
+          display: inline-block;
 
+          .selects {
+            transition: all 0.2s ease-in-out;
+          }
+
+          &:hover .selects {
+            rotate: 270deg;
+          }
+
+          &:hover .dropdown-content {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .dropdown-content {
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          bottom: 40px;
+          right: -10px;
+          border-radius: 5px;
+          transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+          opacity: 0;
+          transform: translateY(-10px);
+          z-index: 1;
+
+          a {
+            text-decoration: none;
+            color: inherit;
+
+            span {
+              background-color: #f9f9f9;
+              display: block;
+              min-width: 100px;
+              padding: 12px 16px;
+              border-radius: 5px;
+              cursor: pointer;
+
+              &:hover {
+                background-color: #fdce50;
+              }
+            }
+          }
+        }
         .icon {
           border: 1px solid #999;
           padding: 2px 5px;

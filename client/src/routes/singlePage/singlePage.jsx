@@ -30,7 +30,6 @@ function SinglePage() {
 
   const [saved, setSaved] = useState(post.isSaved);
   const [poster, setPoster] = useState(post.userId === currentUser.id);
-  console.log(poster);
 
   const navigate = useNavigate();
 

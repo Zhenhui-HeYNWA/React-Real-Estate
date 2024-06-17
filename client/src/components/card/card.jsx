@@ -12,11 +12,10 @@ import {
   MapPin,
 } from 'lucide-react';
 
-function Card({ item }) {
+function Card({ item, onDelete }) {
   const { currentUser, updateUser } = useContext(AuthContext);
-  console.log(currentUser);
+
   const navigate = useNavigate();
-  console.log(item.userId);
 
   const [saved, setSaved] = useState(
     currentUser?.savedPosts?.some((post) => post.postId === item.id) || false
@@ -75,6 +74,21 @@ function Card({ item }) {
       console.log(err);
     }
   };
+  const handleDelete = async (postId) => {
+    if (!currentUser) {
+      navigate('/login');
+      return; // 确保在导航后立即返回
+    }
+
+    try {
+      const res = await apiRequest.delete(`/posts/${postId}`);
+      // 如果删除成功，可以在这里添加一些后续操作，例如刷新列表或显示通知
+      console.log('Post deleted:', res.data);
+      onDelete();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className='card'>
@@ -109,11 +123,17 @@ function Card({ item }) {
             </div>
             {currentUser ? (
               item.userId === currentUser.id ? (
-                <Link to={`/${item.id}/edit`} item={item}>
-                  <div className='icon'>
-                    <Bolt strokeWidth={1} />
+                <div className='icon dropdown'>
+                  <Bolt strokeWidth={1} className='selects' />
+                  <div className='dropdown-content'>
+                    <Link onClick={() => handleDelete(item.id)}>
+                      <span>Delete</span>
+                    </Link>
+                    <Link to={`/${item.id}/edit`} item={item}>
+                      <span>Edit</span>
+                    </Link>
                   </div>
-                </Link>
+                </div>
               ) : (
                 <div className='icon' onClick={handleChat}>
                   <MessageSquareText strokeWidth={1} />
