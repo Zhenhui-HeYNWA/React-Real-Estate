@@ -6,35 +6,44 @@ import apiRequest from '../../lib/apiRequest';
 import { format } from 'timeago.js';
 import { useNotificationStore } from '../../lib/notificationStore';
 
-function Chat({ chats, openChatUserId }) {
+function Chat({ chats }) {
   const [chat, setChat] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  console.log(onlineUsers);
   const { currentUser } = useContext(AuthContext);
-  console.log(chat);
-
-  console.log(chats);
   const { socket } = useContext(SocketContext);
   const messageEndRef = useRef();
 
   const decrease = useNotificationStore((state) => state.decrease);
 
   useEffect(() => {
+    if (socket) {
+      socket.on('updateUserStatus', (users) => {
+        setOnlineUsers(users);
+      });
+
+      return () => {
+        socket.off('updateUserStatus');
+      };
+    }
+  }, [socket]);
+
+  useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chat]);
 
   const handleChat = async (id, receiver, postId) => {
-    console.log(id);
     try {
       const res = await apiRequest(`/chats/${id}`);
       const chatData = res.data;
 
       if (!chatData.seenBy.includes(currentUser.id)) {
-        decrease(); // 减少未读通知计数
+        decrease();
       }
 
       setChat({ ...chatData, receiver });
 
       if (!chatData.messages.length) {
-        // 如果没有消息记录，则创建新消息
         try {
           const baseUrl = 'http://localhost:5173/';
           const messageText = `Hi, I am ${
@@ -71,7 +80,7 @@ function Chat({ chats, openChatUserId }) {
     const formData = new FormData(e.target);
     const text = formData.get('text');
     if (!text) return;
-    console.log(chat.id);
+
     try {
       const res = await apiRequest.post(`/messages/${chat.id}`, { text });
       setChat((prev) => ({ ...prev, messages: [...prev.messages, res.data] }));
@@ -84,14 +93,12 @@ function Chat({ chats, openChatUserId }) {
       console.log(error);
     }
   };
-  const postId = chats[0].postId;
-  console.log(postId);
-  //first log 666b9a4c25ecfef620722ca6;
 
-  const handleSendPostLink = async (e) => {
-    e.preventDefault();
+  const isUserOnline = (userId) => {
+    return onlineUsers.some((user) => user.userId === userId);
   };
-
+  console.log(isUserOnline('666b9331d2d3c624d75b6532'));
+  console.log(isUserOnline('666cd9dba4a451fb1f8f7313'));
   useEffect(() => {
     const read = async () => {
       try {
@@ -103,7 +110,7 @@ function Chat({ chats, openChatUserId }) {
 
     if (chat && socket) {
       socket.on('getMessage', (data) => {
-        if (chat.id === data.chat.id) {
+        if (chat.id === data.chatId) {
           setChat((prev) => ({ ...prev, messages: [...prev.messages, data] }));
           read();
         }
@@ -114,6 +121,7 @@ function Chat({ chats, openChatUserId }) {
       socket.off('getMessage');
     };
   }, [socket, chat]);
+
   const createLink = (text) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.split(urlRegex).map((part, index) => {
@@ -143,7 +151,16 @@ function Chat({ chats, openChatUserId }) {
                   : '#fdce50',
             }}
             onClick={() => handleChat(c.id, c.receiver, c.postId)}>
-            <img src={c.receiver.avatar || '/noavatar.jpg'} alt='' />
+            <div className='avatar'>
+              <img src={c.receiver.avatar || '/noavatar.jpg'} alt='' />
+              <div
+                className='online'
+                style={{
+                  backgroundColor: isUserOnline(c.receiver.id)
+                    ? 'green'
+                    : 'gray',
+                }}></div>
+            </div>
             <span>{c.receiver.username}</span>
             <p>{c.lastMessage}</p>
           </div>

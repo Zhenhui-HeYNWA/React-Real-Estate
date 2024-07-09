@@ -23,12 +23,24 @@
       align-items: center;
       gap: 20px;
       cursor: pointer;
+      .avatar {
+        position: relative;
+      }
 
       img {
         width: 40px;
         height: 40px;
         border-radius: 50%;
         object-fit: cover;
+      }
+      .online {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: greenyellow;
       }
 
       span {
