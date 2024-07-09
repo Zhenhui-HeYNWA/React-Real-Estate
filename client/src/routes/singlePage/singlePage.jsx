@@ -1,11 +1,11 @@
-import Slider from '../../components/slider/slider';
+import Slider from '../../components/slider/slider.jsx';
 
 import './singlePage.scss';
-import Map from '../../components/map/map';
+import Map from '../../components/map/map.jsx';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext.jsx';
 import apiRequest from '../../lib/apiRequest.js';
 import {
   Bath,

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import './profileUpdatePage.scss';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext.jsx';
 import { useState } from 'react';
 import apiRequest from '../../lib/apiRequest.js';
 import { useNavigate } from 'react-router-dom';
