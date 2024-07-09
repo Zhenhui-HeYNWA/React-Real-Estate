@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 3000,
+  },
+  build: {
+    outDir: 'dist',
+  },
+  base: './', // 确保资源路径正确
 });
