@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UploadWidget from '../../components/uploadWidget/uploadWidget';
 import './editPostPage.scss';
 import ReactQuill from 'react-quill';
