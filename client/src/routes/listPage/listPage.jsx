@@ -1,11 +1,9 @@
-import { listData } from '../../lib/dummyDB';
 import Filter from '../../components/filter/filter';
 import './listPage.scss';
 import Card from '../../components/card/card';
 import Map from '../../components/map/map';
 import { Await, useLoaderData } from 'react-router-dom';
-import { Suspense, useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { Suspense, useEffect, useState } from 'react';
 import apiRequest from '../../lib/apiRequest';
 
 function ListPage() {

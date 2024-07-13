@@ -1,4 +1,3 @@
-import { listData } from '../../lib/dummyDB.js';
 import Card from '../card/card.jsx';
 import './list.scss';
 function List({ posts }) {
