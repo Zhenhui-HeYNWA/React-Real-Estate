@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiRequest = axios.create({
-  baseURL: 'https://react-real-estate-o5wr.vercel.app/',
+  baseURL: 'http://localhost:8800/api',
   withCredentials: true,
 });
 

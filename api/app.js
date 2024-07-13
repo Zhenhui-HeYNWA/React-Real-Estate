@@ -10,14 +10,12 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-const port = process.env.PORT || 8800;
-
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+
 app.use(express.json());
 app.use(cookieParser());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'public')));
 
 // API endpoints
 app.use('/api/users', userRouter);
@@ -27,11 +25,6 @@ app.use('/api/test', testRouter);
 app.use('/api/chats', chatRouter);
 app.use('/api/messages', messageRouter);
 
-// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(8800, () => {
+  console.log('Server is running');
 });
