@@ -68,7 +68,6 @@ function SinglePage() {
       setSaved((prev) => !prev);
     }
   };
-  const handleEdit = () => {};
 
   return (
     <div className='singlePage'>

@@ -82,7 +82,7 @@ function Card({ item, onDelete }) {
 
     try {
       const res = await apiRequest.delete(`/posts/${postId}`);
-      // 如果删除成功，可以在这里添加一些后续操作，例如刷新列表或显示通知
+
       console.log('Post deleted:', res.data);
       onDelete();
     } catch (error) {
