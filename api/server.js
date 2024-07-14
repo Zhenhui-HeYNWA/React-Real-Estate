@@ -1,3 +1,4 @@
+// api/server.js
 import express from 'express';
 import cors from 'cors';
 import postRouter from './routes/post.route.js';
@@ -6,15 +7,11 @@ import testRouter from './routes/test.route.js';
 import userRouter from './routes/user.route.js';
 import chatRouter from './routes/chat.route.js';
 import messageRouter from './routes/message.route.js';
-
 import cookieParser from 'cookie-parser';
-
 import path from 'path';
 
 const app = express();
-
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -25,22 +22,22 @@ app.use('/api/auth', authRouter);
 app.use('/api/test', testRouter);
 app.use('/api/chats', chatRouter);
 app.use('/api/messages', messageRouter);
-//Deployment--
+
+// Deployment
 const __dirname1 = path.resolve();
-console.log(__dirname1);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname1, '/client/build')));
+  app.use(express.static(path.join(__dirname1, '../client/build'))); // 修改路径
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname1, 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname1, '../client/build', 'index.html')); // 修改路径
   });
 } else {
   app.get('/', (req, res) => {
     res.send('API is running successfully');
   });
 }
-//Deployment--
+
 const PORT = process.env.PORT || 8800;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
