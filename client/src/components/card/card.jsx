@@ -20,7 +20,6 @@ function Card({ item, onDelete }) {
   const [saved, setSaved] = useState(
     currentUser?.savedPosts?.some((post) => post.postId === item.id) || false
   );
-
   useEffect(() => {
     const fetchCurrentUser = async () => {
       if (currentUser && currentUser.id) {
@@ -62,6 +61,7 @@ function Card({ item, onDelete }) {
   const handleChat = async () => {
     if (!currentUser) {
       navigate('/login');
+      return;
     }
 
     try {
@@ -74,15 +74,15 @@ function Card({ item, onDelete }) {
       console.log(err);
     }
   };
+
   const handleDelete = async (postId) => {
     if (!currentUser) {
       navigate('/login');
-      return; // 确保在导航后立即返回
+      return;
     }
 
     try {
       const res = await apiRequest.delete(`/posts/${postId}`);
-
       console.log('Post deleted:', res.data);
       onDelete();
     } catch (error) {
@@ -140,7 +140,7 @@ function Card({ item, onDelete }) {
                 </div>
               )
             ) : (
-              <div className='icon' onClick={handleChat}>
+              <div className='icon' onClick={() => navigate('/login')}>
                 <MessageSquareText strokeWidth={1} />
               </div>
             )}

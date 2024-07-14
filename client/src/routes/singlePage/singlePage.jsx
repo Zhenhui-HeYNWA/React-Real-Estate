@@ -1,5 +1,4 @@
 import Slider from '../../components/slider/slider.jsx';
-
 import './singlePage.scss';
 import Map from '../../components/map/map.jsx';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
@@ -28,7 +27,9 @@ function SinglePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
 
   const [saved, setSaved] = useState(post.isSaved);
-  const [poster, setPoster] = useState(post.userId === currentUser.id);
+  const [poster, setPoster] = useState(
+    currentUser ? post.userId === currentUser.id : false
+  );
 
   const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ function SinglePage() {
   const handleChat = async () => {
     if (!currentUser) {
       navigate('/login');
+      return;
     }
 
     try {
@@ -55,8 +57,9 @@ function SinglePage() {
   const handleSave = async () => {
     if (!currentUser) {
       navigate('/login');
+      return;
     }
-    // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
+
     setSaved((prev) => !prev);
     try {
       await apiRequest.post('/users/save', { postId: post.id });

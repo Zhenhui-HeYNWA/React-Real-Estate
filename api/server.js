@@ -12,7 +12,7 @@ import path from 'path';
 
 const app = express();
 
-const allowedOrigins = [process.env.CLIENT_URL];
+const allowedOrigins = [process.env.CLIENT_URL, 'http://localhost:8800'];
 
 app.use(
   cors({

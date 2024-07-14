@@ -1,5 +1,3 @@
-import Navbar from './components/navbar/Navbar';
-
 import Homepage from './routes/homepage/homepage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ListPage from './routes/listPage/listPage';

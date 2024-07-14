@@ -97,7 +97,7 @@ function EditPostPage() {
     <div className='newPostPage'>
       <div className='formContainer'>
         <div className='left'>
-          <h1>Add New Post</h1>
+          <h1>Edit New Post</h1>
         </div>
 
         <div className='group images'>
@@ -110,7 +110,7 @@ function EditPostPage() {
               {images.map((image, index) => (
                 <span key={index} className='imgBox'>
                   <img src={image} alt='' key={index} />
-                  <span onClick={() => handleDelete(index)}>{index}X</span>
+                  <span onClick={() => handleDelete(index)}>X</span>
                 </span>
               ))}
             </div>
