@@ -20,7 +20,6 @@ function Register() {
     const conPassword = formData.get('ConPassword');
 
     const EqualPassword = password === conPassword;
-    console.log(avatar[0]);
 
     if (EqualPassword) {
       try {

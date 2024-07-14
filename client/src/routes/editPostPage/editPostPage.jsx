@@ -25,11 +25,9 @@ function EditPostPage() {
     if (post && postDetail.desc) {
       setValue(postDetail.desc);
     }
-    console.log(value);
   }, [post]);
 
   const handleDelete = (index) => {
-    console.log(index);
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 

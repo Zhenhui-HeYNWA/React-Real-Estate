@@ -9,7 +9,7 @@ import { useNotificationStore } from '../../lib/notificationStore';
 function Chat({ chats }) {
   const [chat, setChat] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  console.log(onlineUsers);
+
   const { currentUser } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
   const messageEndRef = useRef();
@@ -97,8 +97,7 @@ function Chat({ chats }) {
   const isUserOnline = (userId) => {
     return onlineUsers.some((user) => user.userId === userId);
   };
-  console.log(isUserOnline('666b9331d2d3c624d75b6532'));
-  console.log(isUserOnline('666cd9dba4a451fb1f8f7313'));
+
   useEffect(() => {
     const read = async () => {
       try {

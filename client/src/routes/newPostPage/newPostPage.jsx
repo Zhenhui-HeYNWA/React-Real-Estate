@@ -73,7 +73,6 @@ function NewPostPage() {
       });
     });
   };
-  console.log(position);
 
   const handleCancel = () => {
     const form = document.getElementById('postForm');

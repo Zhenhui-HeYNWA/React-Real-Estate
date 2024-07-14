@@ -26,7 +26,6 @@ import {
 function SinglePage() {
   const post = useLoaderData();
   const { currentUser, updateUser } = useContext(AuthContext);
-  console.log(post);
 
   const [saved, setSaved] = useState(post.isSaved);
   const [poster, setPoster] = useState(post.userId === currentUser.id);
