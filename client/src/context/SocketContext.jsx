@@ -9,7 +9,7 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    setSocket(io('http://localhost:3000'));
+    setSocket(io('https://react-real-estate.onrender.com'));
   }, []);
   useEffect(() => {
     currentUser && socket?.emit('newUser', currentUser.id);

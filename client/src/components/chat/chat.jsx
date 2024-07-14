@@ -45,7 +45,7 @@ function Chat({ chats }) {
 
       if (!chatData.messages.length) {
         try {
-          const baseUrl = 'http://localhost:5173/';
+          const baseUrl = 'https://react-real-estate.onrender.com/';
           const messageText = `Hi, I am ${
             currentUser.username
           }. I am interested in your post: ${baseUrl}${encodeURIComponent(
